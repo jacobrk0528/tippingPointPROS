@@ -1,4 +1,3 @@
-#pragma once
 #include "globals.hpp"
 #include "main.h"
 
@@ -112,7 +111,7 @@ class driveBase {
         @param drive_tol lateral mvmt slop.
         @param turn_tol turn mvmt slop.
         */
-        Chassis& withSlop(double drive_tol_ = 10, double turn_tol_ = 1);
+        driveBase& withSlop(double drive_tol_ = 10, double turn_tol_ = 1);
 
         /*
         Sets turn Variables used in Chassis::move();
@@ -123,7 +122,7 @@ class driveBase {
         @param turn_kD_ kD constant.
 
         */
-        Chassis& withTurn(double theta_, double turn_kP_, double turn_kI_, double turn_kD_);
+        driveBase& withTurn(double theta_, double turn_kP_, double turn_kI_, double turn_kD_);
 
         /*
         Sets drive Variables.
@@ -134,5 +133,5 @@ class driveBase {
         @param drive_kD_ kD constant.
 
         */
-        Chassis& move(double target, double drive_kP, double drive_kI, double drive_kD);
-}
+        driveBase& move(double target, double drive_kP, double drive_kI, double drive_kD);
+};
