@@ -1,6 +1,5 @@
 #include "main.h"
 #include "globals.hpp"
-#include "driveBase.hpp"
 #include "slew.hpp"
 
 /**
@@ -78,7 +77,9 @@ void autonomous() {}
  */
 void opcontrol() {
 	while (true) {
-		slew.tankDrive(900, 500, 900);
+		slew.arcadeDrive(900, 500, 900);
+		slew.frontLift(900, 500, 900);
+		slew.backLift(900, 500, 900);
 		pros::delay(20);
 		
 	}

@@ -18,4 +18,7 @@ pros::Motor tilter(7, MOTOR_GEARSET_36, 0, MOTOR_ENCODER_COUNTS);
 pros::Motor intake(8, MOTOR_GEARSET_18, 1, MOTOR_ENCODER_COUNTS);
 
 //PNEUMATICS
-pros::ADIDigitalOut claw('A');
+pros::ADIDigitalOut frontClaw('A');
+pros::ADIDigitalOut backClaw('B');
+
+
