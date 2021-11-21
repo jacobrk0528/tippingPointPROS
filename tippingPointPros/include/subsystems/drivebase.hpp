@@ -1,6 +1,13 @@
 #include "globals.hpp"
 #include "main.h"
 
+#define RIGHT 1
+#define LEFT 2
+#define HOLD 1
+#define COAST 2
+#define CIRCUMFERENCE 8.635
+#define CONVERSION 4169.079328314997
+
 class driveBase {
     public:
         driveBase();
@@ -134,4 +141,30 @@ class driveBase {
 
         */
         driveBase& move(double target, double drive_kP, double drive_kI, double drive_kD);
+
+    private:
+        static bool isSettled;
+
+        static double IMUHeading;
+
+        static double power, rate_drive, rate_turn;
+        static double kP_drive, kI_drive, kD_drive, kP_turn, kD_turn;
+        static double correction_rate;
+        static int direction_turn;
+        static double output;
+        static int slew_a, slew_x;
+        static int drive_theta;
+        static bool justPID;
+        static int tol;
+        static double prevError;
+        static int heading_diff;
+        static bool oneSide;
+        static double turnPrevError;
+
+        static bool halt;
+        static double turn_output;
+        static double m_error, m_integral, m_derivative, m_prevError, m_power, LOutput, ROutput, turn_tol, drive_tol;
+        static double t_error, t_integral, t_derivative, t_prevError, t_power, theta, turn_kP, turn_kI, turn_kD;
+
+
 };

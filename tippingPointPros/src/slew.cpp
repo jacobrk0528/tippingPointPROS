@@ -1,6 +1,6 @@
 #include "main.h"
 #include "globals.hpp"
-#include "class/control/slew.hpp"
+#include "slew.hpp"
 
 //VARS
 int Slew::leftSlewOutput = 0, Slew::rightSlewOutput = 0;

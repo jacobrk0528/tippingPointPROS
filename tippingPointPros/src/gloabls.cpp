@@ -21,4 +21,7 @@ pros::Motor intake(8, MOTOR_GEARSET_18, 1, MOTOR_ENCODER_COUNTS);
 pros::ADIDigitalOut frontClaw('A');
 pros::ADIDigitalOut backClaw('B');
 
+//SENSORS
+pros::Imu inertial(15);
+
 

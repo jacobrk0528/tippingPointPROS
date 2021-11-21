@@ -1,10 +1,10 @@
 #include "main.h"
 #include "globals.hpp"
-#include "lift.hpp"
+#include "subsystems/lift.hpp"
 
 class frontLift {
     private:
-    
+
     public:
         frontLift();
 

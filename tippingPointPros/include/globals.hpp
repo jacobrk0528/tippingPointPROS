@@ -19,3 +19,4 @@ extern pros::ADIDigitalOut forntClaw;
 extern pros::ADIDigitalOut backClaw;
 
 //SENSORS
+extern pros::Imu inertial;

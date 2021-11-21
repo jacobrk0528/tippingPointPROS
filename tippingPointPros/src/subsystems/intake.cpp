@@ -1,6 +1,6 @@
 #include "main.h"
 #include "globals.hpp"
-#include "intake.hpp"
+#include "subsystems/intake.hpp"
 
 
 void setIntake(int power) {
