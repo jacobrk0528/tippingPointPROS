@@ -26,7 +26,20 @@ driveBase::~driveBase() {
 }
 
 void reset() {
+    rightFrontMotor.move_velocity(0);
+    rightBackMotor.move_velocity(0);
+    leftFrontMotor.move_velocity(0);
+    leftBackMotor.move_velocity(0);
+    rightFrontMotor.tare_position();
+    rightBackMotor.tare_position();
+    leftFrontMotor.tare_position();
+    leftBackMotor.tare_position();
 
+    inertial.reset();
+
+    while(inertial.is_calibrating()) {
+        pros::delay(5);
+    }
 }
 
 void odomReset(){
@@ -34,7 +47,10 @@ void odomReset(){
 }
 
 void setBreak(int breakState){
-
+    switch (breakState) {
+        case 1:
+            
+    }
 }
 
 void stop() {
