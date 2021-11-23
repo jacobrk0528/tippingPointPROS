@@ -2,25 +2,48 @@
 #include "globals.hpp"
 #include "subsystems/pneumatics.hpp"
 
+int state = OPEN;
+
+Claw::Claw() {}
+
 //FRONT PNEUMATICS
 // grab something
-void closeFront() {
+void Claw::closeFront() {
+    forntClaw.set_value(true);
 }
 // release
-void openFront(){
+void Claw::openFront(){
+    forntClaw.set_value(false);
 }
 
 
 //BACK PNEUMATICS
 //grab something
-void closeBack(){
+void Claw::closeBack(){
+    backClaw.set_value(true);
 }
 //release 
-void openBack(){
+void Claw::openBack(){
+    backClaw.set_value(false);
 }
 
 //DRIVER CONTROL
-int frontClaw(){
+int Claw::frontClaw(){
+    if(Master.get_digital(DIGITAL_X)) {
+        if(state == OPEN) {
+            closeFront();
+        } else {
+            openFront();
+        }
+    }
 }
-int backClaw(){
+
+int Claw::backClaw(){
+    if(Master.get_digital(DIGITAL_B)) {
+        if(state == OPEN) {
+            closeBack();
+        } else {
+            openBack();
+        }
+    }
 }

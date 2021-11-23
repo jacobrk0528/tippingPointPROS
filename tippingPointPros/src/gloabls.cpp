@@ -24,4 +24,6 @@ pros::ADIDigitalOut backClaw('B');
 //SENSORS
 pros::Imu inertial(15);
 
+pros::Rotation LOdometer(18), ROdometer(19);
+
 

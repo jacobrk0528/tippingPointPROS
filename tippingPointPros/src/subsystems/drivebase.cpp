@@ -4,20 +4,22 @@
 
 bool driveBase::isSettled = true;
 bool driveBase::justPID = false;
+bool driveBase::oneSide;
+bool driveBase::halt;
+
 double driveBase::IMUHeading = inertial.get_heading();
 double driveBase::power;
-int driveBase::drive_theta;
 double driveBase::kP_drive, driveBase::kD_drive, driveBase::kP_turn, driveBase::kD_turn;
-int driveBase::direction_turn;
 double driveBase::rate_drive, driveBase::rate_turn, driveBase::correction_rate;
 double driveBase::output = 1;
+double driveBase::prevError = 0;
+double driveBase::turnPrevError = 0;
+double driveBase::m_error, driveBase::m_integral, driveBase::m_derivative, driveBase::m_prevError, driveBase::m_power, driveBase::LOutput, driveBase::ROutput, driveBase::drive_tol = 10, driveBase::turn_tol = 1, driveBase::t_error, driveBase::t_integral, driveBase::t_derivative, driveBase::t_prevError, driveBase::theta, driveBase::turn_kP, driveBase::turn_kI, driveBase::turn_kD, driveBase::turn_output;
+
+int driveBase::drive_theta;
+int driveBase::direction_turn;
 int driveBase::slew_a = 600, driveBase::slew_x = 1;
 int driveBase::tol, driveBase::heading_diff;
-double driveBase::prevError = 0;
-bool driveBase::oneSide;
-double driveBase::turnPrevError = 0;
-bool driveBase::halt;
-double driveBase::m_error, driveBase::m_integral, driveBase::m_derivative, driveBase::m_prevError, driveBase::m_power, driveBase::LOutput, driveBase::ROutput, driveBase::drive_tol = 10, driveBase::turn_tol = 1, driveBase::t_error, driveBase::t_integral, driveBase::t_derivative, driveBase::t_prevError, driveBase::theta, driveBase::turn_kP, driveBase::turn_kI, driveBase::turn_kD, driveBase::turn_output;
 
 
 driveBase::driveBase() {}
@@ -37,13 +39,18 @@ void driveBase::reset() {
 
     inertial.reset();
 
+    LOdometer.reset();
+    ROdometer.reset();
+    ROdometer.set_reversed(1);
+
     while(inertial.is_calibrating()) {
         pros::delay(5);
     }
 }
 
 void driveBase::odomReset(){
-    
+    LOdometer.reset_position();
+    ROdometer.reset_position();
 }
 
 void driveBase::setBreak(int breakState){
@@ -210,7 +217,7 @@ driveBase& driveBase::drive(double target) {
     odomReset();
 
     double leftvalue = LOdometer.get_position(); //LEncoder.get_value();
-    double rightvalue =ROdometer.get_position();  //REncoder.get_value();
+    double rightvalue = ROdometer.get_position();  //REncoder.get_value();
     printf("Left, Right %f %f  \n", leftvalue, rightvalue);
 
     isSettled = false;

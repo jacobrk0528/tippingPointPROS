@@ -20,3 +20,5 @@ extern pros::ADIDigitalOut backClaw;
 
 //SENSORS
 extern pros::Imu inertial;
+
+extern pros::Rotation LOdometer, ROdometer;

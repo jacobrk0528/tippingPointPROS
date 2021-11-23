@@ -35,6 +35,9 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
+#include "pros/apix.h"
+#include "pros/rtos.h"
+#include "okapi/api.hpp"
 
 /**
  * You should add more #includes here
@@ -75,7 +78,16 @@ void opcontrol(void);
 /**
  * You can add C++-only headers here
  */
-//#include <iostream>
+#include <iostream>
+#include <ostream>
+#include <chrono>
+#include <ctime>
+#include <cstdlib>
+
+#include <vector>
+
+#include <stdio.h>
+#include <stdarg.h>
 #endif
 
 #endif  // _PROS_MAIN_H_

@@ -1,5 +1,5 @@
-#include "globals.hpp"
 #include "main.h"
+#include "globals.hpp"
 
 #define RIGHT 1
 #define LEFT 2

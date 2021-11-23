@@ -162,8 +162,8 @@ int Slew::arcadeDrive(double fwdAccel, double deccel, double revAccel) {
 }
 
 int slew::frontLift(double fwdAccel, double deccel, double revAccel) {
-    frontLiftUpButton = Master.get_digital(DIGITAL_R1);
-    frontLiftDownButton = Master.get_digital(DIGITAL_R2);
+    frontLiftUpButton = Master.get_digital(DIGITAL_L1);
+    frontLiftDownButton = Master.get_digital(DIGITAL_L2);
 
     printf("target, output, actual power, %d %d %f\n", frontLiftTarget, frontLiftOutput, frontLiftMotor.get_actual_velocity());
 
@@ -198,8 +198,8 @@ int slew::frontLift(double fwdAccel, double deccel, double revAccel) {
 }
 
 int slew::backLift(double fwdAccel, double deccel, double revAccel) {
-    backLiftUpButton = Master.get_digital(DIGITAL_L1);
-    backLiftDownButton = Master.get_digital(DIGITAL_L2);
+    backLiftUpButton = Master.get_digital(DIGITAL_R1);
+    backLiftDownButton = Master.get_digital(DIGITAL_R2);
 
     printf("target, output, actual power, %d %d %f\n", backLiftTarget, backLiftOutput, backLiftMotor.get_actual_velocity());
 
