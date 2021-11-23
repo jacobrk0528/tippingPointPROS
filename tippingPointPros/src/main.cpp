@@ -1,9 +1,9 @@
 #include "main.h"
 #include "globals.hpp"
+#include "tilter.hpp"
 #include "slew.hpp"
 #include "pneumatics.hpp"
 #include "intake.hpp"
-#include "tilter.hpp"
 
 /**
  * A callback function for LLEMU's center button.
@@ -82,12 +82,11 @@ void opcontrol() {
 	pros::Task frontPneumaticsTask(Claw::frontClaw());
 	pros::Task backPneumaticsTask(Claw::backClaw());
 	pros::Task intake(Intake::runIntake());
-	pros::Task Tilter(Tilter::runTilter);
+	pros::Task Tilter_(Tilter::runTilter());
 	while (true) {
 		slew.arcadeDrive(900, 500, 900);
 		slew.frontLift(900, 500, 900);
 		slew.backLift(900, 500, 900);
 		pros::delay(20);
-		
 	}
 }
