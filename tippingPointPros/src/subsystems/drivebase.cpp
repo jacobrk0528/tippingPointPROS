@@ -168,8 +168,8 @@ driveBase& driveBase::turn(double desiredTurnAngle) {
     calcDir(IMUHeading, desiredTurnAngle);
 
     double error = fabs(theta - IMUHeading);
-    double prevError = error;
     double derivative = error - prevError;
+    double prevError = error;
     power = error*kP_turn + derivative*kD_turn;
 
     if(output < power && !justPID) {
