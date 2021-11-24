@@ -84,9 +84,6 @@ void opcontrol() {
 		slew.arcadeDrive(900, 500, 900);
 		slew.frontLift(900, 500, 900);
 		slew.backLift(900, 500, 900);
-
-		if 
-
 		pros::delay(20);
 	}
 }
