@@ -1,3 +1,5 @@
+#include "main.h"
+
 //CONTROLLERS
 extern pros::Controller Master;
 

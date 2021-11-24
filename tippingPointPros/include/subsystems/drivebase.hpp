@@ -1,5 +1,4 @@
 #include "main.h"
-#include "globals.hpp"
 
 #define RIGHT 1
 #define LEFT 2
@@ -8,9 +7,8 @@
 #define CIRCUMFERENCE 8.635
 #define CONVERSION 4169.079328314997
 
-class driveBase {
+class DriveBase {
     public:
-        driveBase();
 
         //reset drive base encoders and sensors
         void reset();

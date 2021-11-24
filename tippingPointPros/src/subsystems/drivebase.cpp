@@ -1,33 +1,27 @@
 #include "main.h"
-#include "subsystems/drivebase.hpp"
-#include "globals.hpp"
 
-bool driveBase::isSettled = true;
-bool driveBase::justPID = false;
-bool driveBase::oneSide;
-bool driveBase::halt;
+bool DriveBase::isSettled = true;
+bool DriveBase::justPID = false;
+bool DriveBase::oneSide;
+bool DriveBase::halt;
 
-double driveBase::IMUHeading = inertial.get_heading();
-double driveBase::power;
-double driveBase::kP_drive, driveBase::kD_drive, driveBase::kP_turn, driveBase::kD_turn;
-double driveBase::rate_drive, driveBase::rate_turn, driveBase::correction_rate;
-double driveBase::output = 1;
-double driveBase::prevError = 0;
-double driveBase::turnPrevError = 0;
-double driveBase::m_error, driveBase::m_integral, driveBase::m_derivative, driveBase::m_prevError, driveBase::m_power, driveBase::LOutput, driveBase::ROutput, driveBase::drive_tol = 10, driveBase::turn_tol = 1, driveBase::t_error, driveBase::t_integral, driveBase::t_derivative, driveBase::t_prevError, driveBase::theta, driveBase::turn_kP, driveBase::turn_kI, driveBase::turn_kD, driveBase::turn_output;
+double DriveBase::IMUHeading = inertial.get_heading();
+double DriveBase::power;
+double DriveBase::kP_drive, DriveBase::kD_drive, DriveBase::kP_turn, DriveBase::kD_turn;
+double DriveBase::rate_drive, DriveBase::rate_turn, DriveBase::correction_rate;
+double DriveBase::output = 1;
+double DriveBase::prevError = 0;
+double DriveBase::turnPrevError = 0;
+double DriveBase::m_error, DriveBase::m_integral, DriveBase::m_derivative, DriveBase::m_prevError, DriveBase::m_power, DriveBase::LOutput, DriveBase::ROutput, DriveBase::drive_tol = 10, DriveBase::turn_tol = 1, DriveBase::t_error, DriveBase::t_integral, DriveBase::t_derivative, DriveBase::t_prevError, DriveBase::theta, DriveBase::turn_kP, DriveBase::turn_kI, DriveBase::turn_kD, DriveBase::turn_output;
 
-int driveBase::drive_theta;
-int driveBase::direction_turn;
-int driveBase::slew_a = 600, driveBase::slew_x = 1;
-int driveBase::tol, driveBase::heading_diff;
+int DriveBase::drive_theta;
+int DriveBase::direction_turn;
+int DriveBase::slew_a = 600, DriveBase::slew_x = 1;
+int DriveBase::tol, DriveBase::heading_diff;
 
 
-driveBase::driveBase() {}
-driveBase::~driveBase() {
-    reset();
-}
 
-void driveBase::reset() {
+void DriveBase::reset() {
     rightFrontMotor.move_velocity(0);
     rightBackMotor.move_velocity(0);
     leftFrontMotor.move_velocity(0);
@@ -48,12 +42,12 @@ void driveBase::reset() {
     }
 }
 
-void driveBase::odomReset(){
+void DriveBase::odomReset(){
     LOdometer.reset_position();
     ROdometer.reset_position();
 }
 
-void driveBase::setBreak(int breakState){
+void DriveBase::setBreak(int breakState){
     switch (breakState) {
         case 1: {
             rightFrontMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -76,7 +70,7 @@ void driveBase::setBreak(int breakState){
     }
 }
 
-void driveBase::stop() {
+void DriveBase::stop() {
     rightFrontMotor.move(0);
     rightBackMotor.move(0);
     leftFrontMotor.move(0);
@@ -87,44 +81,44 @@ void driveBase::stop() {
     justPD = false;
 }
 
-driveBase& driveBase::withTurnSlew(int turnSlewRate = 5) {
+DriveBase& DriveBase::withTurnSlew(int turnSlewRate = 5) {
     rate_turn = turnSlewRate;
     return *this;
 }
 
-driveBase& driveBase::withTurnPD(double kP_, double kD_) {
+DriveBase& DriveBase::withTurnPD(double kP_, double kD_) {
     kP_turn = kP_;
     kD_turn = kD_;
     return *this;
 }
 
-driveBase& driveBase::withTurnDirection(int turnDirection) {
+DriveBase& DriveBase::withTurnDirection(int turnDirection) {
      direction_turn = turnDirection;
      return *this;
 }
 
-driveBase& driveBase::withSlew(int slewRate = 5) {
+DriveBase& DriveBase::withSlew(int slewRate = 5) {
     slew_a = slewRate;
 }
 
-driveBase& driveBase::withPD(double kP_, double kD_) {
+DriveBase& DriveBase::withPD(double kP_, double kD_) {
     kP_drive = kP_;
     kD_drive = kD_;
     return *this;
 }
 
-driveBase& driveBase::withHeading(double driveAngle, double correctionRate) {
+DriveBase& DriveBase::withHeading(double driveAngle, double correctionRate) {
     drive_theta = driveAngle;
     correction_rate = correctionRate;
     return *this;
 }
 
-driveBase& driveBase::justPD(bool justPD_) {
+DriveBase& DriveBase::justPD(bool justPD_) {
     justPID = justPD_;
     return *this;
 }
 
-driveBase& driveBase::calcTurnDirection(int currentPos, int targetPos) {
+DriveBase& DriveBase::calcTurnDirection(int currentPos, int targetPos) {
     if(currentPos == 0) {
         if(abs(heading_diff) >= 180) {
             direction_turn = LEFT;
@@ -151,7 +145,7 @@ driveBase& driveBase::calcTurnDirection(int currentPos, int targetPos) {
     }
 }
 
-driveBase& driveBase::turn(double desiredTurnAngle) {
+DriveBase& DriveBase::turn(double desiredTurnAngle) {
   isSettled = false;
   while(IMUHeading != desiredTurnAngle) {
     double theta = desiredTurnAngle;
@@ -213,7 +207,7 @@ driveBase& driveBase::turn(double desiredTurnAngle) {
 return *this;
 }
 
-driveBase& driveBase::drive(double target) {
+DriveBase& DriveBase::drive(double target) {
     odomReset();
 
     double leftvalue = LOdometer.get_position(); //LEncoder.get_value();
@@ -309,17 +303,17 @@ driveBase& driveBase::drive(double target) {
     return *this;
 }
 
-void driveBase::waitUntilSettled(bool halt_ = 1){
+void DriveBase::waitUntilSettled(bool halt_ = 1){
     halt = halt_;
 }
 
-driveBase& driveBase::withSlop(double drive_tol_ = 10, double turn_tol_ = 1){
+DriveBase& DriveBase::withSlop(double drive_tol_ = 10, double turn_tol_ = 1){
     drive_tol = drive_tol_;
     turn_tol = turn_tol_;
     return *this;
 }
 
-driveBase& driveBase::withTurn(double theta_, double turn_kP_, double turn_kI_, double turn_kD_) {
+DriveBase& DriveBase::withTurn(double theta_, double turn_kP_, double turn_kI_, double turn_kD_) {
     theta = theta_;
     turn_kP = turn_kP_;
     turn_kI = turn_kI_;
@@ -327,7 +321,7 @@ driveBase& driveBase::withTurn(double theta_, double turn_kP_, double turn_kI_, 
     return *this;
 }
 
-driveBase& driveBase::move(double target, double drive_kP, double drive_kI, double drive_kD) {
+DriveBase& DriveBase::move(double target, double drive_kP, double drive_kI, double drive_kD) {
     //Convert target from inches to encoder ticks.
     target *= CONVERSION;
     isSettled = 0;

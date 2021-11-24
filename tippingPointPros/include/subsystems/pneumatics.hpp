@@ -1,5 +1,4 @@
 #include "main.h"
-#include "globals.hpp"
 
 #define OPEN 1
 #define CLOSE 2

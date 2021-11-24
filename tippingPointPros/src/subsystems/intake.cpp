@@ -2,6 +2,9 @@
 #include "globals.hpp"
 #include "subsystems/intake.hpp"
 
+double Intake::joystickValue = 0;
+
+static backLift backlift;
 
 Intake::Intake() {}
 Intake::Intake() {
@@ -38,7 +41,10 @@ void Intake::intakeControl() {
 }
 
 int Intake::runIntake(){
-    double joystickValue = Master.get_analog(ANALOG_LEFT_Y);
+    if(backlift.getValue() > 20) {
+        joystickValue = 127;
+    }
+    joystickValue = Master.get_analog(ANALOG_LEFT_Y);
     setIntake(joystickValue);
     pros::delay(20);
     return 1;

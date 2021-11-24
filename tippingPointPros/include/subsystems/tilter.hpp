@@ -1,5 +1,4 @@
 #include "main.h"
-#include "globals.hpp"
 
 #define RING //encoder number for pos to pick up rings --> must be positive
 #define RESTING 0 // encoder number for pos to rest --> must be negitive 

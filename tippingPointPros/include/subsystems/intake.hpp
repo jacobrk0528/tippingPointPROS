@@ -1,9 +1,9 @@
 #include "main.h"
-#include "globals.hpp"
 
 
 class Intake {
     public:
+        
         void reset();
         void setIntake(int power);
         void stopIntake();
@@ -12,5 +12,6 @@ class Intake {
 
         int runIntake(int power);
     private:
+        static double joystickValue;
 
 }
