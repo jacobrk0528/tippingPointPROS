@@ -4,7 +4,7 @@
 
 double Intake::joystickValue = 0;
 
-static backLift backlift;
+static Tilter tilter;
 
 Intake::Intake() {}
 Intake::Intake() {
@@ -18,21 +18,21 @@ void Intake::reset() {
 
 
 void Intake::setIntake(int power) {
-    intake.move_voltage(power);
+    intakeMotor.move_voltage(power);
 }
 
 void Intake::stopIntake() {
-    intake.move_voltage(0);
+    intakeMotor.move_voltage(0);
 }
 
 void Intake::setStop(int type) {
     switch (type) {
         case 1:
-            intake.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_COAST);
+            intakeMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_COAST);
         case 2:
-            intake.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_BRAKE);
+            intakeMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_BRAKE);
         case 3:
-            intake.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_HOLD);
+            intakeMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_HOLD);
     }
 }
 
@@ -41,10 +41,11 @@ void Intake::intakeControl() {
 }
 
 int Intake::runIntake(){
-    if(backlift.getValue() > 20) {
+    if(tilter.getValue() > 20) {
         joystickValue = 127;
     }
     joystickValue = Master.get_analog(ANALOG_LEFT_Y);
+    joystickValue *= 90;  // joystick returns up to 127 --- voltage takes values up to 12000
     setIntake(joystickValue);
     pros::delay(20);
     return 1;

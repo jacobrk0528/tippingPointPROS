@@ -12,9 +12,9 @@ extern pros::Motor leftBackMotor;
 extern pros::Motor frontLiftMotor;
 extern pros::Motor backLiftMotor;
 
-extern pros::Motor tilter;
+extern pros::Motor tilterMotor;
 
-extern pros::Motor intake;
+extern pros::Motor intakeMotor;
 
 // PNEUMATICS
 extern pros::ADIDigitalOut forntClaw;

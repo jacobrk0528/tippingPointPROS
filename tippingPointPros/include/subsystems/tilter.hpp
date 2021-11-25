@@ -15,6 +15,8 @@ class Tilter {
 
         void reset();
 
+        double getValue();
+
         int runTilter();
 
         Tilter& withSlew(int rate = 5);

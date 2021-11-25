@@ -24,8 +24,12 @@ Tilter::Tilter() {
 }
 
 Tilter::reset() {
-    tilter.move_velocity(0);
-    tilter.tare_position();
+    tilterMotor.move_velocity(0);
+    tilterMotor.tare_position();
+}
+
+Tilter::getValue() {
+    return tilterMotor.get_position();
 }
 
 Tilter& Tilter::withSlew(int rate = 5) {
@@ -55,12 +59,12 @@ Tilter& Tilter::move(int target){
                     derivitive = error-prevError;
                     prevError = error;
                     outputPower = kP*error + kD*derivitive;
-                    tilter.move_voltage(outputPower*dir);
+                    tilterMotor.move_voltage(outputPower*dir);
                     break;
                 }
                 case MOTOR: {
                     outputPower = MAXOUTPUT+1;
-                    tilter.move_velocity(outputPower*dir);
+                    tilterMotor.move_velocity(outputPower*dir);
                     break;
                 }
             }
@@ -76,6 +80,6 @@ int Tilter::runTilter() {
     if(Master.get_digital(DIGITAL_Y)) {
         Tilter::move(RING).withSlew();
     } else if (Master.get_digital(DIGITAL_A)) {
-        Tilter::move(RESTING).withPD(.00823, .00698);
+        Tilter::move(RESTING).withPD(.0823, .0698);
     }
 }
