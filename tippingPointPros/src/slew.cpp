@@ -5,7 +5,7 @@
 //VARS
 int Slew::leftSlewOutput = 0, Slew::rightSlewOutput = 0;
 int Slew::driveMax = 0;
-int Slew::leftJoystick =0, Slew::rightJoystick = 0;
+int Slew::leftJoystick = 0, Slew::rightJoystick = 0;
 int Slew::leftSide = 0, Slew::rightSide = 0;
 int Slew::leftTarget = 0, Slew::rightTarget = 0;
 
@@ -24,13 +24,13 @@ int Slew::backLiftUpButton = 0, Slew::backLiftdownButton = 0;
 //SLEW FUNCTION
 int Slew::tankDrive(double fwdAccel, double deccel, double revAccel){
     //get joystick values
-    leftJoystick = master.get_analog(ANALOG_LEFT_Y);
-    rightJoystick = master.get_analog(ANALOG_RIGHT_Y);
+    double leftJoystick = master.get_analog(ANALOG_LEFT_Y);
+    double rightJoystick = master.get_analog(ANALOG_RIGHT_Y);
     double averageJoystick = leftJoystick/rightJoystick;
 
     //print values for refrence
     printf("leftTarget, leftSlewOutput, actualPower, %d %d %f\n", leftTarget, leftSlewOutput, leftFrontMotor.get_actual_velocity());
-    printf("rightTarget, rightSlewlewOutput, actualPower, %d %d %f\n", rightTarget, rightSlewlewOutput, rightFrontMotor.get_actual_velocity());
+    printf("rightTarget, rightSlewlewOutput, actualPower, %d %d %f\n", rightTarget, rightSlewOutput, rightFrontMotor.get_actual_velocity());
 
     //set drive max value
     if(leftJoystick/rightJoystick < 0 || leftJoystick/rightJoystick >=2 || rightJoystick/leftJoystick < 0 || rightJoystick/leftJoystick >=2){
@@ -73,7 +73,7 @@ int Slew::tankDrive(double fwdAccel, double deccel, double revAccel){
     //accelerate - if output value is less then desired, then increase output value
     if(rightSlewOutput < rightTarget){
         if(rightTarget == 0 && rightSlewOutput !=0){
-            RslerightSlewOutputwOutput = 0;
+            rightSlewOutput = 0;
         } else {
             rightSlewOutput +=fwdAccel;
         }
@@ -97,8 +97,8 @@ int Slew::tankDrive(double fwdAccel, double deccel, double revAccel){
 }
 
 int Slew::arcadeDrive(double fwdAccel, double deccel, double revAccel) {
-    rightJoystickX = master.get_analog(ANALOG_RIGHT_X);
-    rightJoystickY = master.get_analog(ANALOG_RIGHT_Y);
+    double rightJoystickX = master.get_analog(ANALOG_RIGHT_X);
+    double rightJoystickY = master.get_analog(ANALOG_RIGHT_Y);
 
     //Set drive max
     driveMax = 11000/127;
@@ -112,7 +112,7 @@ int Slew::arcadeDrive(double fwdAccel, double deccel, double revAccel) {
     }
 
     //set x target
-    xTarget = rightJoystickX*driveMax;
+    double xTarget = rightJoystickX*driveMax;
 
     //accelerate - if output value is less then desired, then increase output value
     if(xSlewOutput < xTarget){
@@ -132,7 +132,7 @@ int Slew::arcadeDrive(double fwdAccel, double deccel, double revAccel) {
     }
 
     //set y target
-    yTarget = rightJoystickY*driveMax;
+    double yTarget = rightJoystickY*driveMax;
 
     //accelerate - if output value is less then desired, then increase output value
     if(ySlewOutput < yTarget){
@@ -160,7 +160,7 @@ int Slew::arcadeDrive(double fwdAccel, double deccel, double revAccel) {
     return 0;
 
 }
-
+/*
 int slew::frontLift(double fwdAccel, double deccel, double revAccel) {
     frontLiftUpButton = Master.get_digital(DIGITAL_L1);
     frontLiftDownButton = Master.get_digital(DIGITAL_L2);
@@ -230,5 +230,5 @@ int slew::backLift(double fwdAccel, double deccel, double revAccel) {
     //set motor power
     backLiftMotor.move_voltage(backLiftOutput);
 
-    return 0;
+    return 0;*/
 }

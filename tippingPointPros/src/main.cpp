@@ -1,4 +1,11 @@
 #include "main.h"
+#include "globals.hpp"
+#include "autonomous.hpp"
+#include "subsystems/drivebase.hpp"
+#include "subsystems/intake.hpp"
+#include "subsystems/lift.hpp"
+#include "subsystems/pneumatics.hpp"
+#include "subsystems/tilter.hpp"
 
 /**
  * A callback function for LLEMU's center button.
