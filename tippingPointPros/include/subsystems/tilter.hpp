@@ -25,6 +25,8 @@ class Tilter {
 
         Tilter& move(int target);
 
+        static void start(void* ignore);
+
     private:
         static int slewRate;
         static int currentPos;

@@ -1,8 +1,14 @@
 #include "globals.hpp"
+#include "subsystems/drivebase.hpp"
+#include "subsystems/intake.hpp"
+#include "subsystems/lift.hpp"
 #include "subsystems/pneumatics.hpp"
+#include "subsystems/tilter.hpp"
+#include "autonomous.hpp"
+#include "slew.hpp"
 
 
-/**
+/*
  * A callback function for LLEMU's center button.
  *
  * When this callback is fired, it will toggle line 2 of the LCD text between
@@ -31,8 +37,14 @@ void initialize() {
 	pros::lcd::register_btn1_cb(on_center_button);
 
 	Claw claw;
+	Tilter tilter;
+	Intake intake;
+	DriveSlew arcadeSlew;
 
 	pros::Task frontClawTask(claw.start, NULL, "frontClawTask");
+	pros::Task tilterTask(tilter.start, NULL, "Tilter Task");
+	pros::Task intakeTask(intake.start, NULL, "intake task");
+	pros::Task driveBaseTask(arcadeSlew.start, NULL, "drive base task");
 }
 
 /**
@@ -82,18 +94,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Task frontPneumaticsTask(Claw::frontClaw());
-	pros::Task backPneumaticsTask(Claw::backClaw());
-	pros::Task intake(Intake::runIntake());
-	pros::Task Tilter_(Tilter::runTilter());
 	while (true) {
-		slew.arcadeDrive(900, 500, 900);
-		slew.frontLift(900, 500, 900);
-		slew.backLift(900, 500, 900);
 		pros::delay(20);
-
-		
-
-
 	}
 }

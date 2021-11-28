@@ -7,9 +7,10 @@ class Intake {
         void setIntake(int power);
         void stopIntake();
         void setStop(int type);
-        void intakeControl();
 
-        int runIntake(int power);
+        void runIntake();
+
+        static void start(void* ignore);
     private:
         static double joystickValue;
 

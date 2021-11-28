@@ -5,26 +5,17 @@
 
 class Claw {
     public: 
-        Claw();
         //FRONT PNEUMATICS
         // grab something
         void closeFront();
         // release
         void openFront();
 
-
-        //BACK PNEUMATICS
-        //grab something
-        void closeBack();
-        //release 
-        void openBack();
-
         //DRIVER CONTROL
         void frontClaw();
-        void backClaw();
 
         static void start(void* ignore);
     private:
-        int state;
+        static int state;
 };
 

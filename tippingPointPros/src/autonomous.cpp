@@ -1,5 +1,5 @@
-#include "main.h"
-
+#include "autonomous.hpp"
+/*
 static DriveBase drivebase;
 static Intake intake;
 static frontLift frontlift;
@@ -31,4 +31,4 @@ void redRight() {
 Auton& run() {
     reset();
     redRight();
-}
+}*/

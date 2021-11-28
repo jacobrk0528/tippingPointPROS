@@ -2,7 +2,7 @@
 #include "globals.hpp"
 
 //CONTROLLER
-pros::Controller master(CONTROLLER_MASTER);
+pros::Controller Master(CONTROLLER_MASTER);
 
 //MOTORS
 pros::Motor rightFrontMotor(11, MOTOR_GEARSET_18, 0, MOTOR_ENCODER_COUNTS);

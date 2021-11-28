@@ -1,28 +1,17 @@
 #include "pneumatics.hpp"
 
-int state = OPEN;
-
-Claw::Claw() {}
+int Claw::state = OPEN;
 
 //FRONT PNEUMATICS
 // grab something
 void Claw::closeFront() {
-    forntClawPiston.set_value(true);
+    frontClawPiston.set_value(true);
+    state = CLOSE;
 }
 // release
 void Claw::openFront(){
-    forntClawPiston.set_value(false);
-}
-
-
-//BACK PNEUMATICS
-//grab something
-void Claw::closeBack(){
-    backClawPiston.set_value(true);
-}
-//release 
-void Claw::openBack(){
-    backClawPiston.set_value(false);
+    frontClawPiston.set_value(false);
+    state = OPEN;
 }
 
 //DRIVER CONTROL
@@ -31,8 +20,10 @@ void Claw::frontClaw(){
         if(Master.get_digital(DIGITAL_X)) {
             if(state == OPEN) {
                 closeFront();
+                state = CLOSE;
             } else {
                 openFront();
+                state = OPEN;
             }
         }
     }
@@ -41,14 +32,4 @@ void Claw::frontClaw(){
 void Claw::start(void* ignore) {
     Claw *that = static_cast<Claw*>(ignore);
     that -> frontClaw();
-}
-
-int Claw::backClaw(){
-    if(Master.get_digital(DIGITAL_B)) {
-        if(state == OPEN) {
-            closeBack();
-        } else {
-            openBack();
-        }
-    }
 }

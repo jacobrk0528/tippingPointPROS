@@ -34,18 +34,18 @@ void Intake::setStop(int type) {
     }
 }
 
-void Intake::intakeControl() {
-    // set intakes based on control values
-}
 
-int Intake::runIntake(int power){
+void Intake::runIntake(){
     if(tilter.getValue() > 20) {
         joystickValue = 127;
     }
-    
     joystickValue = Master.get_analog(ANALOG_LEFT_Y);
     joystickValue *= 90;  // joystick returns up to 127 --- voltage takes values up to 12000
     setIntake(joystickValue);
     pros::delay(20);
-    return 1;
+}
+
+void Intake::start(void *ignore) {
+    Intake *that = static_cast<Intake*>(ignore);
+    that -> runIntake();
 }

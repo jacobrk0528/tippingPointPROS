@@ -75,8 +75,15 @@ Tilter& Tilter::move(int target){
 
 void Tilter::runTilter() {
     if(Master.get_digital(DIGITAL_Y)) {
-        Tilter::move(RING).withSlew();
+        //Tilter::move(RING).withSlew();
+        tilterMotor.move_velocity(50);
     } else if (Master.get_digital(DIGITAL_A)) {
-        Tilter::move(RESTING).withPD(.0823, .0698);
+        //Tilter::move(RESTING).withPD(.0823, .0698);
+        tilterMotor.move_velocity(-50);
     }
+}
+
+void Tilter::start(void* ignore) {
+    Tilter *that = static_cast<Tilter*>(ignore);
+    that -> runTilter();
 }

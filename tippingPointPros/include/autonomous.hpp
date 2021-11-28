@@ -1,5 +1,5 @@
 #include "globals.hpp"
-
+/*
 class Auton {
     public:
         void reset();
@@ -11,4 +11,4 @@ class Auton {
         Auton& run();
 
         Auton& runSkills();
-};
+};*/

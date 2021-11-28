@@ -18,8 +18,7 @@ extern pros::Motor tilterMotor;
 extern pros::Motor intakeMotor;
 
 // PNEUMATICS
-extern pros::ADIDigitalOut forntClawPiston;
-extern pros::ADIDigitalOut backClawPiston;
+extern pros::ADIDigitalOut frontClawPiston;
 
 //SENSORS
 extern pros::Imu inertial;
