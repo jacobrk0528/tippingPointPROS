@@ -1,7 +1,7 @@
 #include "globals.hpp"
 
-#define RING 0 //encoder number for pos to pick up rings --> must be positive
-#define RESTING 0 // encoder number for pos to rest --> must be negitive 
+#define RING -.1 //encoder number for pos to pick up rings --> must be positive
+#define RESTING .1 // encoder number for pos to rest --> must be negitive 
 // i could have it reset after each movement. meaning ring and resting would be the same value just one negitive and one positive
 
 #define SLEW 1
@@ -23,7 +23,7 @@ class Tilter {
 
         Tilter& withSlew(int rate = 5);
 
-        Tilter& move(int target);
+        void move(double target);
 
         static void start(void* ignore);
 

@@ -2,11 +2,11 @@
 
 int Tilter::slewRate = 5;
 int Tilter::currentPos = tilterMotor.get_position();
-int Tilter::acceptableError = 5;
+int Tilter::acceptableError = 0;
 int Tilter::outputPower = 0;
 int Tilter::dir = 0;
 
-double Tilter::kP, Tilter::kD;
+double Tilter::kP = .09, Tilter::kD = .081;
 double Tilter::prevError = 0;
 double Tilter::error, Tilter::derivitive;
 
@@ -40,10 +40,12 @@ Tilter& Tilter::withPD(double kP_, double kD_) {
     return *this;
 }
 
-Tilter& Tilter::move(int target){
+void Tilter::move(double target){
+    std::cout << "text2" << std::endl;
     while ((fabs(target) > (fabs(currentPos)+fabs(acceptableError))) || (fabs(target) < (fabs(currentPos)-fabs(acceptableError)))) {
         dir = target/fabs(target);
         while (outputPower < MAXOUTPUT) {
+            currentPos = tilterMotor.get_position();
             switch(controlType) {
                 case SLEW: {
                     outputPower += slewRate;
@@ -70,20 +72,24 @@ Tilter& Tilter::move(int target){
         }
     }
     tilterMotor.move_voltage(0);
-    return *this;
 }
 
 void Tilter::runTilter() {
-    if(Master.get_digital(DIGITAL_Y)) {
-        //Tilter::move(RING).withSlew();
-        tilterMotor.move_velocity(50);
-    } else if (Master.get_digital(DIGITAL_A)) {
-        //Tilter::move(RESTING).withPD(.0823, .0698);
-        tilterMotor.move_velocity(-50);
+    while (true) {
+        if(Master.get_digital(DIGITAL_Y)) {
+            //Tilter::move(RING);
+            tilterMotor.move_voltage(6000);
+        } else if (Master.get_digital(DIGITAL_A)) {
+            //Tilter::move(RESTING);
+            tilterMotor.move_voltage(-6000);
+        } else {
+            tilterMotor.move_voltage(0);
+        }
     }
 }
 
 void Tilter::start(void* ignore) {
     Tilter *that = static_cast<Tilter*>(ignore);
     that -> runTilter();
+    
 }

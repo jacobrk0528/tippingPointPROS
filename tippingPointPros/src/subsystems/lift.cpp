@@ -77,6 +77,24 @@ frontLift& frontLift::move(double target) {
     }
 }
 
+void frontLift::driver() {
+    while(true){
+        if(Master.get_digital(DIGITAL_R1)) {
+            frontLiftMotor.move_voltage(10000);
+        } else if (Master.get_digital(DIGITAL_R2)) {
+            frontLiftMotor.move_voltage(-10000);
+        } else {
+            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+            frontLiftMotor.move_velocity(0);
+        }
+    }
+}
+
+void frontLift::start(void* ignore) {
+    frontLift *that = static_cast<frontLift*>(ignore);
+    that -> driver();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -156,4 +174,3 @@ backLift& backLift::move(double target) {
         backLiftMotor.move_voltage(output*dir);
     }
 }
-

@@ -16,7 +16,6 @@ class frontLift {
         static bool justPID_;
         static int dir;
     public:
-        frontLift();
         
         void reset();
 
@@ -31,6 +30,10 @@ class frontLift {
         frontLift& withSlew(int rate = 5);
 
         frontLift& move(double target);
+
+        static void start(void* ignore);
+
+        void driver();
 };
 
 class backLift{
@@ -45,7 +48,6 @@ class backLift{
         static bool justPID_;
         static int dir;
     public:
-        backLift();
         
         void reset();
 
@@ -60,4 +62,6 @@ class backLift{
         backLift& withSlew(int rate = 5);
 
         backLift& move(double target);
+
+        static void start(void* ignore);
 };

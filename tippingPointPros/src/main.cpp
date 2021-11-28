@@ -40,10 +40,12 @@ void initialize() {
 	Tilter tilter;
 	Intake intake;
 	DriveSlew arcadeSlew;
+	frontLift frontlift;
 
 	pros::Task frontClawTask(claw.start, NULL, "frontClawTask");
 	pros::Task tilterTask(tilter.start, NULL, "Tilter Task");
 	pros::Task intakeTask(intake.start, NULL, "intake task");
+	pros::Task frontLiftTask(frontlift.start, NULL, "front lift task");
 	pros::Task driveBaseTask(arcadeSlew.start, NULL, "drive base task");
 }
 
@@ -53,7 +55,6 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {}
-
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
  * Management System or the VEX Competition Switch. This is intended for
@@ -77,7 +78,8 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
+	Auton auton_;
+	auton_.run();
 }
 
 /**

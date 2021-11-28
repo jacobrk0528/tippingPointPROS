@@ -1,34 +1,40 @@
 #include "autonomous.hpp"
-/*
-static DriveBase drivebase;
-static Intake intake;
-static frontLift frontlift;
-static backLift backlift;
-static Claw claw;
-static Tilter tilter;
 
-void reset() {
-    drivebase.reset()
-    intake.reset()
-    frontlift.reset()
-    backlift.reset();
+#include "subsystems/drivebase.hpp"
+#include "subsystems/intake.hpp"
+#include "subsystems/lift.hpp"
+#include "subsystems/pneumatics.hpp"
+#include "subsystems/tilter.hpp"
+#include "slew.hpp"
+
+Claw claw;
+Tilter tilter;
+Intake intake;
+DriveBase drivebase;
+frontLift frontlift;
+
+void Auton::reset() {
+    std::cout << "reset is being called" << std::endl;
+    drivebase.reset();
+    std::cout << "past reset 1" << std::endl;
     tilter.reset();
+    intake.reset();
+    frontlift.reset();
 }
-void redRight() {
-    tilter.move(RESTING);
-    drivebase.withSlew(5).withPD().move(600, .0089, .0032, .0063);
-    drivebase.waitUntilSettled();
-    claw.closeFront();
-    tilter.move(RING);
-    drivebase.withTurnDirection(LEFT).turn(90); // left
-    drivebase.move(300, .0089, .0032, .0063);
-    drivebase.withTurnDirection(LEFT).turn(90);
-    drivebase.waitUntilSettled();
-    intake.runIntake(127);
-    drivebase.withPD(.0089, .0063).withSlew(5).move(-600, .0089, .0032, .0063)
+void Auton::redRight() {
+    reset();
+    std::cout << "rightRed is being called" << std::endl;
+    drivebase.move(50, .707, .681, .618);
+    std::cout << "moving past move function" << std::endl;
 }
 
-Auton& run() {
-    reset();
+void Auton::run() {
+    std::cout << "auto is working" << std::endl;
+    //reset();
     redRight();
-}*/
+}
+
+void Auton::start(void* ignore) {
+    Auton *that = static_cast<Auton*>(ignore);
+    that -> run();
+}
