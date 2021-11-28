@@ -1,4 +1,4 @@
-#include "main.h"
+#include "globals.hpp"
 
 #define UP 1
 #define DOWN -1
@@ -60,4 +60,4 @@ class backLift{
         backLift& withSlew(int rate = 5);
 
         backLift& move(double target);
-}
+};

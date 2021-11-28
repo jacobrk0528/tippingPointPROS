@@ -1,4 +1,4 @@
-#include "main.h"
+#include "drivebase.hpp"
 
 bool DriveBase::isSettled = true;
 bool DriveBase::justPID = false;
@@ -78,10 +78,10 @@ void DriveBase::stop() {
 
     odomReset();
 
-    justPD = false;
+    justPID = false;
 }
 
-DriveBase& DriveBase::withTurnSlew(int turnSlewRate = 5) {
+DriveBase& DriveBase::withTurnSlew(int turnSlewRate) {
     rate_turn = turnSlewRate;
     return *this;
 }
@@ -97,8 +97,9 @@ DriveBase& DriveBase::withTurnDirection(int turnDirection) {
      return *this;
 }
 
-DriveBase& DriveBase::withSlew(int slewRate = 5) {
+DriveBase& DriveBase::withSlew(int slewRate) {
     slew_a = slewRate;
+    return *this;
 }
 
 DriveBase& DriveBase::withPD(double kP_, double kD_) {
@@ -118,7 +119,7 @@ DriveBase& DriveBase::justPD(bool justPD_) {
     return *this;
 }
 
-DriveBase& DriveBase::calcTurnDirection(int currentPos, int targetPos) {
+void DriveBase::calcTurnDirection(int currentPos, int targetPos) {
     if(currentPos == 0) {
         if(abs(heading_diff) >= 180) {
             direction_turn = LEFT;
@@ -159,7 +160,7 @@ DriveBase& DriveBase::turn(double desiredTurnAngle) {
         }
     }
 
-    calcDir(IMUHeading, desiredTurnAngle);
+    calcTurnDirection(IMUHeading, desiredTurnAngle);
 
     double error = fabs(theta - IMUHeading);
     double derivative = error - prevError;
@@ -187,8 +188,8 @@ DriveBase& DriveBase::turn(double desiredTurnAngle) {
         break;}
     }
 
-    double tpower = LF.get_target_velocity(); //Speed sent to motors
-    double rpower = LF.get_actual_velocity(); //Actual speed of the motors
+    double tpower = leftFrontMotor.get_target_velocity(); //Speed sent to motors
+    double rpower = leftBackMotor.get_actual_velocity(); //Actual speed of the motors
 
     if(IMUHeading > 355){
       IMUHeading = 0;
@@ -218,8 +219,8 @@ DriveBase& DriveBase::drive(double target) {
 
     while(true) {
 
-        leftvalue = (LOdometer.get_position())/100; //LEncoder.get_value();
-        rightvalue =(ROdometer.get_position())/100;  //REncoder.get_value();
+        leftvalue = (LOdometer.get_position())/100.0; //LEncoder.get_value();
+        rightvalue =(ROdometer.get_position())/100.0;  //REncoder.get_value();
 
         double averagePos = (leftvalue+rightvalue)/2;//(REncoder.get_value() + LEncoder.get_value())/2;
         double error = target - averagePos;
@@ -303,11 +304,11 @@ DriveBase& DriveBase::drive(double target) {
     return *this;
 }
 
-void DriveBase::waitUntilSettled(bool halt_ = 1){
+void DriveBase::waitUntilSettled(bool halt_){
     halt = halt_;
 }
 
-DriveBase& DriveBase::withSlop(double drive_tol_ = 10, double turn_tol_ = 1){
+DriveBase& DriveBase::withSlop(double drive_tol_, double turn_tol_){
     drive_tol = drive_tol_;
     turn_tol = turn_tol_;
     return *this;
@@ -382,7 +383,7 @@ DriveBase& DriveBase::move(double target, double drive_kP, double drive_kI, doub
         t_prevError = t_error;
         turn_output = (t_error * turn_kP) + (t_integral * turn_kI) + (t_derivative * turn_kD);
         
-        calcDir(IMUHeading, theta);
+        calcTurnDirection(IMUHeading, theta);
 
         switch(direction_turn){
             case LEFT:{

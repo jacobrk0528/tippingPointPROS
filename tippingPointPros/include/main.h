@@ -89,14 +89,6 @@ void opcontrol(void);
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "globals.hpp"
-#include "autonomous.hpp"
-#include "subsystems/drivebase.hpp"
-#include "subsystems/intake.hpp"
-#include "subsystems/lift.hpp"
-#include "subsystems/pneumatics.hpp"
-#include "subsystems/tilter.hpp"
-
 #endif
 
 #endif  // _PROS_MAIN_H_

@@ -1,4 +1,4 @@
-#include "main"
+#include "globals.hpp"
 
 class Auton {
     public:

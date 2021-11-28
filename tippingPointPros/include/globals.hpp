@@ -1,3 +1,4 @@
+#pragma once
 #include "main.h"
 
 //CONTROLLERS
@@ -17,8 +18,8 @@ extern pros::Motor tilterMotor;
 extern pros::Motor intakeMotor;
 
 // PNEUMATICS
-extern pros::ADIDigitalOut forntClaw;
-extern pros::ADIDigitalOut backClaw;
+extern pros::ADIDigitalOut forntClawPiston;
+extern pros::ADIDigitalOut backClawPiston;
 
 //SENSORS
 extern pros::Imu inertial;

@@ -1,6 +1,6 @@
-#include "main.h"
+#include "globals.hpp"
 
-#define RING //encoder number for pos to pick up rings --> must be positive
+#define RING 0 //encoder number for pos to pick up rings --> must be positive
 #define RESTING 0 // encoder number for pos to rest --> must be negitive 
 // i could have it reset after each movement. meaning ring and resting would be the same value just one negitive and one positive
 
@@ -17,7 +17,9 @@ class Tilter {
 
         double getValue();
 
-        int runTilter();
+        void runTilter();
+
+        Tilter& withPD(double kP_, double kD_);
 
         Tilter& withSlew(int rate = 5);
 
@@ -32,7 +34,7 @@ class Tilter {
         static double error, prevError, derivitive; 
         static double kP, kD;
         static bool slew;
-        static bool PD;
+        static bool PD_;
 
         static int controlType;
-}
+};

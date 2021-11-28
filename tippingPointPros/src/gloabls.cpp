@@ -18,8 +18,8 @@ pros::Motor tilterMotor(5, MOTOR_GEARSET_36, 0, MOTOR_ENCODER_COUNTS);
 pros::Motor intakeMotor(6, MOTOR_GEARSET_18, 1, MOTOR_ENCODER_COUNTS);
 
 //PNEUMATICS
-pros::ADIDigitalOut frontClaw('A');
-pros::ADIDigitalOut backClaw('B');
+pros::ADIDigitalOut frontClawPiston('A');
+pros::ADIDigitalOut backClawPiston('B');
 
 //SENSORS
 pros::Imu inertial(15);

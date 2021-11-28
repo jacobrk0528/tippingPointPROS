@@ -1,9 +1,7 @@
-#include "main.h"
 #include "tilter.hpp"
-#include "globals.hpp"
 
 int Tilter::slewRate = 5;
-int Tilter::currentPos = tilter.get_position();
+int Tilter::currentPos = tilterMotor.get_position();
 int Tilter::acceptableError = 5;
 int Tilter::outputPower = 0;
 int Tilter::dir = 0;
@@ -13,26 +11,24 @@ double Tilter::prevError = 0;
 double Tilter::error, Tilter::derivitive;
 
 bool Tilter::slew = false;
-bool Tilter::PD = false;
+bool Tilter::PD_ = false;
 
 int Tilter::controlType = MOTOR;
 
-
-Tilter::Tilter();
 Tilter::Tilter() {
     reset();
 }
 
-Tilter::reset() {
+void Tilter::reset() {
     tilterMotor.move_velocity(0);
     tilterMotor.tare_position();
 }
 
-Tilter::getValue() {
+double Tilter::getValue() {
     return tilterMotor.get_position();
 }
 
-Tilter& Tilter::withSlew(int rate = 5) {
+Tilter& Tilter::withSlew(int rate) {
     Tilter::slewRate = rate;
     Tilter::controlType = SLEW;
     return *this;
@@ -51,7 +47,7 @@ Tilter& Tilter::move(int target){
             switch(controlType) {
                 case SLEW: {
                     outputPower += slewRate;
-                    tilter.move_velocity(outputPower*dir);
+                    tilterMotor.move_velocity(outputPower*dir);
                     break;
                 }
                 case PD: {
@@ -73,10 +69,11 @@ Tilter& Tilter::move(int target){
             }
         }
     }
-    tilter.move_voltage(0);
+    tilterMotor.move_voltage(0);
+    return *this;
 }
 
-int Tilter::runTilter() {
+void Tilter::runTilter() {
     if(Master.get_digital(DIGITAL_Y)) {
         Tilter::move(RING).withSlew();
     } else if (Master.get_digital(DIGITAL_A)) {

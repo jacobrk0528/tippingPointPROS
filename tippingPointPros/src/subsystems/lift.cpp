@@ -1,4 +1,4 @@
-#include "main.h"
+#include "lift.hpp"
 
 double frontLift::groundValue = 0;
 double frontLift::kP, frontLift::kI, frontLift::kD;
@@ -11,7 +11,6 @@ double frontLift::currentPos;
 bool frontLift::justPID_ = false;
 int frontLift::dir = UP;
 
-frontLift();
 
 void frontLift::reset() {
     frontLiftMotor.move_velocity(0);
@@ -21,11 +20,11 @@ void frontLift::reset() {
 void frontLift::setBreakType(int type) {
     switch (type) {
         case 1:
-            frontLiftMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_BRAKE);
+            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_BRAKE);
         case 2:
-            frontLiftMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_COAST);
+            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_COAST);
         default:
-            frontLiftMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_HOLD);
+            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
     }
 }
 
@@ -35,7 +34,6 @@ void frontLift::stop() {
 
 void justPID() {
     bool justPID_ = true;
-    return *this;
 }
 
 frontLift& frontLift::withPID(double kp, double ki, double kd) {
@@ -45,7 +43,7 @@ frontLift& frontLift::withPID(double kp, double ki, double kd) {
     return *this;
 }
 
-frontLift& frontLift::withSlew(int rate = 5){
+frontLift& frontLift::withSlew(int rate){
     slewValue = rate;
     return *this;
 }
@@ -93,7 +91,6 @@ double backLift::currentPos;
 bool backLift::justPID_ = false;
 int backLift::dir = UP;
 
-backLift();
 
 void backLift::reset() {
     backLiftMotor.move_velocity(0);
@@ -103,11 +100,11 @@ void backLift::reset() {
 void backLift::setBreakType(int type) {
     switch (type) {
         case 1:
-            backLiftMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_BRAKE);
+            backLiftMotor.set_brake_mode(MOTOR_BRAKE_BRAKE);
         case 2:
-            backLiftMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_COAST);
+            backLiftMotor.set_brake_mode(MOTOR_BRAKE_COAST);
         default:
-            backLiftMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_HOLD);
+            backLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
     }
 }
 
@@ -115,9 +112,8 @@ void backLift::stop() {
     backLiftMotor.move_velocity(0);
 }
 
-void justPID() {
+void backLift::justPID() {
     bool justPID_ = true;
-    return *this;
 }
 
 backLift& backLift::withPID(double kp, double ki, double kd) {
@@ -127,7 +123,7 @@ backLift& backLift::withPID(double kp, double ki, double kd) {
     return *this;
 }
 
-backLift& backLift::withSlew(int rate = 5){
+backLift& backLift::withSlew(int rate){
     slewValue = rate;
     return *this;
 }

@@ -1,19 +1,17 @@
-#include "main.h"
-#include "globals.hpp"
-#include "subsystems/intake.hpp"
+#include "intake.hpp"
+#include "tilter.hpp"
 
 double Intake::joystickValue = 0;
 
 static Tilter tilter;
 
-Intake::Intake() {}
 Intake::Intake() {
     reset();
 }
 
 void Intake::reset() {
-    intake.move_velocity(0);
-    intake.tare_position();
+    intakeMotor.move_velocity(0);
+    intakeMotor.tare_position();
 }
 
 
@@ -28,19 +26,19 @@ void Intake::stopIntake() {
 void Intake::setStop(int type) {
     switch (type) {
         case 1:
-            intakeMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_COAST);
+            intakeMotor.set_brake_mode(MOTOR_BRAKE_COAST);
         case 2:
-            intakeMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_BRAKE);
+            intakeMotor.set_brake_mode(MOTOR_BRAKE_BRAKE);
         case 3:
-            intakeMotor.set_brake_mode(pros::motor_brake_mode_e MOTOR_BRAKE_HOLD);
+            intakeMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
     }
 }
 
 void Intake::intakeControl() {
-    `// set intakes based on control values
+    // set intakes based on control values
 }
 
-int Intake::runIntake(){
+int Intake::runIntake(int power){
     if(tilter.getValue() > 20) {
         joystickValue = 127;
     }

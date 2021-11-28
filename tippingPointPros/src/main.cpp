@@ -1,11 +1,6 @@
-#include "main.h"
 #include "globals.hpp"
-#include "autonomous.hpp"
-#include "subsystems/drivebase.hpp"
-#include "subsystems/intake.hpp"
-#include "subsystems/lift.hpp"
 #include "subsystems/pneumatics.hpp"
-#include "subsystems/tilter.hpp"
+
 
 /**
  * A callback function for LLEMU's center button.
@@ -34,6 +29,10 @@ void initialize() {
 	pros::lcd::set_text(1, "Hello PROS User!");
 
 	pros::lcd::register_btn1_cb(on_center_button);
+
+	Claw claw;
+
+	pros::Task frontClawTask(claw.start, NULL, "frontClawTask");
 }
 
 /**
@@ -92,5 +91,9 @@ void opcontrol() {
 		slew.frontLift(900, 500, 900);
 		slew.backLift(900, 500, 900);
 		pros::delay(20);
+
+		
+
+
 	}
 }

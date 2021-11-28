@@ -1,4 +1,4 @@
-#include "main.h"
+#include "globals.hpp"
 
 #define OPEN 1
 #define CLOSE 2
@@ -20,9 +20,11 @@ class Claw {
         void openBack();
 
         //DRIVER CONTROL
-        int frontClaw();
-        int backClaw();
+        void frontClaw();
+        void backClaw();
+
+        static void start(void* ignore);
     private:
         int state;
-}
+};
 
