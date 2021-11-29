@@ -53,7 +53,7 @@ void DriveBase::setBreak(int breakState){
     }
 }
 
-void stop() {
+void DriveBase::stop() {
     leftFrontMotor.move_velocity(0);
     leftBackMotor.move_velocity(0);
     rightFrontMotor.move_velocity(0);
@@ -147,34 +147,27 @@ void DriveBase::drive(double target) {
     double derivitive;
     double output = 0;
 
+    int slewOutput = 0;
+
     currentPos = getAvgPos();
 
     while(currentPos < (target - acceptableError) || currentPos > (target + acceptableError)) {
         //PD loop
         currentPos = getAvgPos();
 
-        error = currentHeading - target;
+        error = target - currentPos;
         derivitive = error - prevError;
 
-        double power = error*kp + derivitive*kd;
-
-        // Slew
-        if (output < power && !justPD_) {
-            output += slewRate;
-        } else {
-            output = power;
-        }
-
-        // account for direction 
-        output *= driveDirection;
+        output = error*kp + derivitive*kd;
 
         // set motor power
-        leftFrontMotor.move_voltage(output);
-        leftBackMotor.move_voltage(output);
-        rightFrontMotor.move_voltage(output);
-        rightBackMotor.move_voltage(output);
+        leftFrontMotor.move_voltage(output * driveDirection);
+        leftBackMotor.move_voltage(output * driveDirection);
+        rightFrontMotor.move_voltage(output * driveDirection);
+        rightBackMotor.move_voltage(output * driveDirection);
 
         prevError = error;
-        pros::delay(10);
+        pros::delay(2);
     }
+    stop();
 }

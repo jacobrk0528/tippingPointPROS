@@ -3,8 +3,8 @@
 #define RIGHT 1
 #define LEFT -1 // adjust based on which is left and which is right (pos or neg)
 
-#define FORWARD 1
-#define REVERSE -1
+#define FORWARD 500
+#define REVERSE -500
 
 #define HOLD 1
 #define COAST 2

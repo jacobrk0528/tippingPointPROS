@@ -14,22 +14,17 @@ DriveBase drivebase;
 frontLift frontlift;
 
 void Auton::reset() {
-    std::cout << "reset is being called" << std::endl;
     drivebase.reset();
-    std::cout << "past reset 1" << std::endl;
     tilter.reset();
     intake.reset();
     frontlift.reset();
 }
 void Auton::redRight() {
     reset();
-    std::cout << "rightRed is being called" << std::endl;
-    drivebase.move(50, .707, .681, .618);
-    std::cout << "moving past move function" << std::endl;
+    drivebase.withSlew(5).withPD(.2, .1).justPD(true).withDirection(FORWARD).drive(800);
 }
 
 void Auton::run() {
-    std::cout << "auto is working" << std::endl;
     //reset();
     redRight();
 }
