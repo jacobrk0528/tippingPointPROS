@@ -9,10 +9,10 @@ pros::Motor rightBackMotor(12, MOTOR_GEARSET_18, 1, MOTOR_ENCODER_COUNTS);
 pros::Motor leftFrontMotor(1, MOTOR_GEARSET_18, 0, MOTOR_ENCODER_COUNTS);
 pros::Motor leftBackMotor(4, MOTOR_GEARSET_18, 0, MOTOR_ENCODER_COUNTS);
 
-pros::Motor frontLiftMotor(14, MOTOR_GEARSET_36, 1, MOTOR_ENCODER_COUNTS);
+pros::Motor frontLeftLiftMotor(14, MOTOR_GEARSET_36, 1, MOTOR_ENCODER_COUNTS);
+pros::Motor frontRightLiftMotor(5, MOTOR_GEARSET_36, 0, MOTOR_ENCODER_COUNTS);
+// update globals.hpp
 pros::Motor backLiftMotor(13, MOTOR_GEARSET_36, 0, MOTOR_ENCODER_COUNTS);
-
-pros::Motor tilterMotor(5, MOTOR_GEARSET_36, 0, MOTOR_ENCODER_COUNTS);
 
 pros::Motor intakeMotor(6, MOTOR_GEARSET_18, 1, MOTOR_ENCODER_COUNTS);
 

@@ -4,18 +4,15 @@
 #include "subsystems/intake.hpp"
 #include "subsystems/lift.hpp"
 #include "subsystems/pneumatics.hpp"
-#include "subsystems/tilter.hpp"
 #include "slew.hpp"
 
 Claw claw;
-Tilter tilter;
 Intake intake;
 DriveBase drivebase;
 frontLift frontlift;
 
 void Auton::reset() {
     drivebase.reset();
-    tilter.reset();
     intake.reset();
     frontlift.reset();
 }

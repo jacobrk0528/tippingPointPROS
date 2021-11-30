@@ -13,23 +13,30 @@ int frontLift::dir = UP;
 
 
 void frontLift::reset() {
-    frontLiftMotor.move_velocity(0);
-    frontLiftMotor.tare_position();
+    frontLeftLiftMotor.move_velocity(0);
+    frontLeftLiftMotor.tare_position();
+
+    frontRightLiftMotor.move_velocity(0);
+    frontRightLiftMotor.tare_position();
 }
 
 void frontLift::setBreakType(int type) {
     switch (type) {
         case 1:
-            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_BRAKE);
+            frontLeftLiftMotor.set_brake_mode(MOTOR_BRAKE_BRAKE);
+            frontRightLiftMotor.set_brake_mode(MOTOR_BRAKE_BRAKE);
         case 2:
-            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_COAST);
+            frontLeftLiftMotor.set_brake_mode(MOTOR_BRAKE_COAST);
+            frontRightLiftMotor.set_brake_mode(MOTOR_BRAKE_COAST);
         default:
-            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+            frontLeftLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+            frontRightLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
     }
 }
 
 void frontLift::stop() {
-    frontLiftMotor.move_velocity(0);
+    frontLeftLiftMotor.move_velocity(0);
+    frontRightLiftMotor.move_velocity(0);
 }
 
 void justPID() {
@@ -50,7 +57,7 @@ frontLift& frontLift::withSlew(int rate){
 
 frontLift& frontLift::move(double target) {
     while (true) {
-        currentPos = frontLiftMotor.get_position();
+        currentPos = frontLeftLiftMotor.get_position();
 
         if(target < currentPos) {
             dir = DOWN;
@@ -73,19 +80,27 @@ frontLift& frontLift::move(double target) {
             output = power;
         }
 
-        frontLiftMotor.move_voltage(output*dir);
+        frontLeftLiftMotor.move_voltage(output*dir);
+        frontRightLiftMotor.move_voltage(output*dir);
     }
 }
 
 void frontLift::driver() {
     while(true){
-        if(Master.get_digital(DIGITAL_R1)) {
-            frontLiftMotor.move_voltage(10000);
-        } else if (Master.get_digital(DIGITAL_R2)) {
-            frontLiftMotor.move_voltage(-10000);
-        } else {
-            frontLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
-            frontLiftMotor.move_velocity(0);
+        if(pros::competition::is_autonomous() == 0) {
+            if(Master.get_digital(DIGITAL_R1)) {
+                frontLeftLiftMotor.move_voltage(10000);
+                frontRightLiftMotor.move_voltage(10000);
+            } else if (Master.get_digital(DIGITAL_R2)) {
+                frontLeftLiftMotor.move_voltage(-10000);
+                frontRightLiftMotor.move_voltage(-10000);
+            } else {
+                frontLeftLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+                frontRightLiftMotor.move_velocity(0);
+
+                frontLeftLiftMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+                frontRightLiftMotor.move_velocity(0);
+            }
         }
     }
 }

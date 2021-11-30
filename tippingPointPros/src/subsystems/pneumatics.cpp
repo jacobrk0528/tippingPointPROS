@@ -17,13 +17,15 @@ void Claw::openFront(){
 //DRIVER CONTROL
 void Claw::frontClaw(){
     while(true){
-        if(Master.get_digital(DIGITAL_X)) {
-            if(state == OPEN) {
-                closeFront();
-                state = CLOSE;
-            } else {
-                openFront();
-                state = OPEN;
+        if(pros::competition::is_autonomous() == 0) {
+            if(Master.get_digital(DIGITAL_X)) {
+                if(state == OPEN) {
+                    closeFront();
+                    state = CLOSE;
+                } else {
+                    openFront();
+                    state = OPEN;
+                }
             }
         }
     }

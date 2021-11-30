@@ -3,9 +3,10 @@
 #include "subsystems/intake.hpp"
 #include "subsystems/lift.hpp"
 #include "subsystems/pneumatics.hpp"
-#include "subsystems/tilter.hpp"
 #include "autonomous.hpp"
 #include "slew.hpp"
+
+
 
 
 /*
@@ -31,19 +32,12 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
-
-	pros::lcd::register_btn1_cb(on_center_button);
-
 	Claw claw;
-	Tilter tilter;
 	Intake intake;
 	DriveSlew arcadeSlew;
 	frontLift frontlift;
 
 	pros::Task frontClawTask(claw.start, NULL, "frontClawTask");
-	pros::Task tilterTask(tilter.start, NULL, "Tilter Task");
 	pros::Task intakeTask(intake.start, NULL, "intake task");
 	pros::Task frontLiftTask(frontlift.start, NULL, "front lift task");
 	pros::Task driveBaseTask(arcadeSlew.start, NULL, "drive base task");

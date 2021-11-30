@@ -1,9 +1,7 @@
 #include "intake.hpp"
-#include "tilter.hpp"
 
 double Intake::joystickValue = 0;
 
-static Tilter tilter;
 
 Intake::Intake() {
     reset();
@@ -37,13 +35,12 @@ void Intake::setStop(int type) {
 
 void Intake::runIntake(){
     while(true) {
-        if(tilter.getValue() > 20) {
-            joystickValue = 127;
+        if(pros::competition::is_autonomous() == 0) {
+            joystickValue = Master.get_analog(ANALOG_RIGHT_Y);
+            joystickValue *= 90;  // joystick returns up to 127 --- voltage takes values up to 12000
+            setIntake(joystickValue);
+            pros::delay(20);
         }
-        joystickValue = Master.get_analog(ANALOG_RIGHT_Y);
-        joystickValue *= 90;  // joystick returns up to 127 --- voltage takes values up to 12000
-        setIntake(joystickValue);
-        pros::delay(20);
     }
 }
 

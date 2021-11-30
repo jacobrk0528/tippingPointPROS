@@ -10,10 +10,10 @@ extern pros::Motor rightBackMotor;
 extern pros::Motor leftFrontMotor;
 extern pros::Motor leftBackMotor;
 
-extern pros::Motor frontLiftMotor;
-extern pros::Motor backLiftMotor;
+extern pros::Motor frontLeftLiftMotor;
+extern pros::Motor frontRightLiftMotor;
 
-extern pros::Motor tilterMotor;
+extern pros::Motor backLiftMotor;
 
 extern pros::Motor intakeMotor;
 
@@ -24,3 +24,5 @@ extern pros::ADIDigitalOut frontClawPiston;
 extern pros::Imu inertial;
 
 extern pros::Rotation LOdometer, ROdometer;
+
+//TASK
