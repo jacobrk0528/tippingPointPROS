@@ -6,14 +6,18 @@ double DriveBase::currentHeading = 0;
 double DriveBase::turnDirection;
 
 double DriveBase::slewRate;
+double DriveBase::slew_a = 200;
+double DriveBase::slew_x;
 double DriveBase::kp, DriveBase::kd;
 double DriveBase::driveDirection;
 
 double DriveBase::currentPos;
 
-int DriveBase::acceptableError = 5;
+
+double DriveBase::acceptableError = 5;
 
 bool DriveBase::justPD_ = false;
+bool DriveBase::normalSlew = false;
 
 void DriveBase::reset() {
     leftFrontMotor.move_velocity(0);
@@ -84,6 +88,13 @@ DriveBase& DriveBase::withTurnDirection(int turnDirection_){
 
 DriveBase& DriveBase::withSlew(int slewRate_){
     slewRate = slewRate_;
+    normalSlew = true;
+    return *this;
+}
+
+DriveBase& DriveBase::withFancySlew(int slewa){
+    slew_a = slewa;
+    normalSlew = false;
     return *this;
 }
 
@@ -127,14 +138,11 @@ void DriveBase::turn(double target) {
             output = power;
         }
 
-        // account for direction 
-        output *= turnDirection;
-
         // set motor power
-        leftFrontMotor.move_voltage(output);
-        leftBackMotor.move_voltage(output);
-        rightFrontMotor.move_voltage(output);
-        rightBackMotor.move_voltage(output);
+        leftFrontMotor.move_voltage(output * turnDirection);
+        leftBackMotor.move_voltage(output * turnDirection);
+        rightFrontMotor.move_voltage(output * turnDirection);
+        rightBackMotor.move_voltage(output * turnDirection);
 
         prevError = error;
         pros::delay(10);
@@ -142,6 +150,7 @@ void DriveBase::turn(double target) {
 }
 
 void DriveBase::drive(double target) {
+    reset();
     double error;
     double prevError = 0;
     double derivitive;
@@ -158,13 +167,36 @@ void DriveBase::drive(double target) {
         error = target - currentPos;
         derivitive = error - prevError;
 
-        output = error*kp + derivitive*kd;
+        double power = error*kp + derivitive*kd;
+
+        if (normalSlew) {
+            // simple slew function
+            if (output < power && !justPD_) {
+                output += slewRate;
+            } else {
+                output = power * CONSTANT;
+            }
+        } else {
+            //fancy slew function
+            if(output < power && !justPD_) {
+                if(target>0) {
+                    output = fabs(((-2*slew_a)/pow(M_E, (2.2*slew_x)/slew_a)+1)+slew_a);
+                } else { 
+                    output = ((-2*slew_a)/pow(M_E, (2.2*slew_x)/slew_a)+1)+slew_a;
+                }
+            } else {
+                output = power;
+            }
+
+            slew_x += .001;
+        }
 
         // set motor power
-        leftFrontMotor.move_voltage(output * driveDirection);
-        leftBackMotor.move_voltage(output * driveDirection);
-        rightFrontMotor.move_voltage(output * driveDirection);
-        rightBackMotor.move_voltage(output * driveDirection);
+
+        leftFrontMotor.move_velocity(output * driveDirection);
+        leftBackMotor.move_velocity(output * driveDirection);
+        rightFrontMotor.move_velocity(output * driveDirection);
+        rightBackMotor.move_velocity(output * driveDirection);
 
         prevError = error;
         pros::delay(2);

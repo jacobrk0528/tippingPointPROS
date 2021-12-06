@@ -3,8 +3,11 @@
 #define RIGHT 1
 #define LEFT -1 // adjust based on which is left and which is right (pos or neg)
 
-#define FORWARD 500
-#define REVERSE -500
+#define CONSTANT 5
+#define FORWARD 1
+#define REVERSE -1
+
+// might need to define a value to adjust the output by
 
 #define HOLD 1
 #define COAST 2
@@ -53,6 +56,8 @@ class DriveBase {
         */
         DriveBase& withSlew(int slewRate_ = 5);
 
+        DriveBase& withFancySlew(int slewa = 200);
+
         /*
         sets drive kP and kD values
         @param kP - kP value
@@ -99,12 +104,17 @@ class DriveBase {
         static double turnDirection;
 
         static double slewRate;
+        static double slew_a;
+        static double slew_x;
         static double kp, kd;
         static double driveDirection;
 
         static double currentPos;
 
-        static int acceptableError;
+        static double wheelDiameter;
+
+        static double acceptableError;
 
         static bool justPD_;
+        static bool normalSlew;
 };

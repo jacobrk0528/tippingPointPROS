@@ -1,6 +1,5 @@
 #include "globals.hpp"
 #include "subsystems/drivebase.hpp"
-#include "subsystems/intake.hpp"
 #include "subsystems/lift.hpp"
 #include "subsystems/pneumatics.hpp"
 #include "autonomous.hpp"
@@ -33,13 +32,13 @@ void on_center_button() {
  */
 void initialize() {
 	Claw claw;
-	Intake intake;
 	DriveSlew arcadeSlew;
 	frontLift frontlift;
+	backLift backlift;
 
 	pros::Task frontClawTask(claw.start, NULL, "frontClawTask");
-	pros::Task intakeTask(intake.start, NULL, "intake task");
 	pros::Task frontLiftTask(frontlift.start, NULL, "front lift task");
+	pros::Task backLiftTask(backlift.start, NULL, "backLiftTask");
 	pros::Task driveBaseTask(arcadeSlew.start, NULL, "drive base task");
 }
 

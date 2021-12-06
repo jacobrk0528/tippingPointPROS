@@ -13,9 +13,8 @@ extern pros::Motor leftBackMotor;
 extern pros::Motor frontLeftLiftMotor;
 extern pros::Motor frontRightLiftMotor;
 
-extern pros::Motor backLiftMotor;
-
-extern pros::Motor intakeMotor;
+extern pros::Motor backLeftLiftMotor;
+extern pros::Motor backRightLiftMotor;
 
 // PNEUMATICS
 extern pros::ADIDigitalOut frontClawPiston;
